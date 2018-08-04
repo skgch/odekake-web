@@ -21,7 +21,8 @@ export default {
     initMap () {
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 51.501527, lng: -0.1921837 },
-        zoom: 14
+        zoom: 14,
+        gestureHandling: 'greedy'
       })
 
       this.map.addListener('click', event => {
@@ -38,10 +39,8 @@ export default {
 </script>
 
 <style scoped>
-  #map {
-    width: 800px;
-    height: 600px;
-    margin: 0 auto;
-    background: gray;
-  }
+#map {
+  height: 100%;
+  background: gray;
+}
 </style>

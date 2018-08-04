@@ -1,7 +1,11 @@
 <template>
-  <div id="app">
-    <google-map/>
-  </div>
+  <v-app>
+    <v-toolbar app class="blue accent-2"/>
+    <v-navigation-drawer app></v-navigation-drawer>
+    <v-content>
+      <google-map/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
@@ -16,12 +20,12 @@ export default {
 </script>
 
 <style>
-#app {
+/* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
+} */
 </style>
