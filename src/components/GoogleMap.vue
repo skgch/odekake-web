@@ -9,7 +9,8 @@ export default {
   data () {
     return {
       map: null,
-      marker: null
+      marker: null,
+      placesService: null
     }
   },
 
@@ -25,6 +26,8 @@ export default {
         gestureHandling: 'greedy'
       })
 
+      this.placesService = new google.maps.places.PlacesService(this.map)
+
       this.map.addListener('click', event => {
         console.log(event)
         if (this.marker) this.marker.setMap(null)
@@ -32,6 +35,18 @@ export default {
           position: event.latLng,
           map: this.map
         })
+
+        if (event.placeId) {
+          console.log('You clicked on place:' + event.placeId)
+          event.stop()
+          this.placesService.getDetails({ placeId: event.placeId }, (place, status) => {
+            if (status === 'OK') {
+              console.log(place.name)
+              console.log(place.formatted_address)
+              this.$store.commit('setPlaceName', place.name)
+            }
+          })
+        }
       })
     }
   }
