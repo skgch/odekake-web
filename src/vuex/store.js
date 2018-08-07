@@ -4,13 +4,13 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  placeName: ''
+  place: null
 }
 const actions = {}
 const getters = {}
 const mutations = {
-  setPlaceName (state, payload) {
-    state.placeName = payload
+  setPlace (state, payload) {
+    state.place = payload
   }
 }
 

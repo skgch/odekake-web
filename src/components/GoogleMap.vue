@@ -41,9 +41,8 @@ export default {
           event.stop()
           this.placesService.getDetails({ placeId: event.placeId }, (place, status) => {
             if (status === 'OK') {
-              console.log(place.name)
-              console.log(place.formatted_address)
-              this.$store.commit('setPlaceName', place.name)
+              console.log(place)
+              this.$store.commit('setPlace', place)
             }
           })
         }
