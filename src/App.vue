@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app class="blue accent-2"/>
+    <tool-bar/>
     <info-drawer/>
     <v-content>
       <google-map/>
@@ -10,12 +10,14 @@
 
 <script>
 import GoogleMap from '@/components/GoogleMap'
+import ToolBar from '@/components/ToolBar'
 import InfoDrawer from '@/components/InfoDrawer'
 
 export default {
   name: 'App',
   components: {
     GoogleMap,
+    ToolBar,
     InfoDrawer
   }
 }
