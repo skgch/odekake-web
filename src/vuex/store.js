@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
   place: null,
-  trip: null
+  trip: null,
+  placeIdList: []
 }
 const actions = {}
 const getters = {}
@@ -15,6 +16,11 @@ const mutations = {
   },
   setTrip (state, payload) {
     state.trip = payload
+  },
+  addPlaceId (state, payload) {
+    if (!state.placeIdList.includes(payload)) {
+      state.placeIdList.push(payload)
+    }
   }
 }
 

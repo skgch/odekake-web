@@ -27,6 +27,20 @@
          {{getDay(period.open.day)}} : {{ period.open.time }} ~ {{ period.close.time }}
         </v-list-tile>
       </v-list-group>
+      <v-list-tile>
+        <v-btn @click="addPlace(place.place_id)">add</v-btn>
+      </v-list-tile>
+    </v-list>
+    <v-divider/>
+    <v-toolbar flat v-if="trip">
+      <v-list>
+        <v-list-tile class="title">{{ trip.title }}</v-list-tile>
+      </v-list>
+    </v-toolbar>
+    <v-list flat v-if="trip">
+      <v-list-tile>Country: {{ trip.country }}</v-list-tile>
+      <v-list-tile>City: {{ trip.city }}</v-list-tile>
+      <v-list-tile>{{ trip.fromDate }} ~ {{ trip.toDate }}</v-list-tile>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -46,6 +60,9 @@ export default {
     },
     periods () {
       return this.place.opening_hours ? this.place.opening_hours.periods : null
+    },
+    trip () {
+      return this.$store.state.trip
     }
   },
 
@@ -53,6 +70,9 @@ export default {
     getDay (number) {
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
       return days[number]
+    },
+    addPlace (placeId) {
+      this.$store.commit('addPlaceId', placeId)
     }
   }
 }
