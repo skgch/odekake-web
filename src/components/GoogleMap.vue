@@ -10,7 +10,23 @@ export default {
     return {
       map: null,
       marker: null,
-      placesService: null
+      placesService: null,
+      savedPlacesMarker: null
+    }
+  },
+
+  computed: {
+    placeIdList () {
+      return this.$store.state.placeIdList
+    }
+  },
+
+  watch: {
+    placeIdList: {
+      handler () {
+        this.showSavedPlacesOnMap()
+      },
+      deep: true
     }
   },
 
@@ -46,6 +62,20 @@ export default {
             }
           })
         }
+      })
+    },
+    showSavedPlacesOnMap () {
+      if (this.savedPlacesMarker) this.savedPlacesMarker.setMap(null)
+      this.placeIdList.forEach(id => {
+        this.placesService.getDetails({ placeId: id }, (place, status) => {
+          if (status === 'OK') {
+            this.savedPlacesMarker = new google.maps.Marker({
+              position: place.geometry.location,
+              map: this.map,
+              icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            })
+          }
+        })
       })
     }
   }
