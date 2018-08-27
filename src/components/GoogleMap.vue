@@ -11,20 +11,20 @@ export default {
       map: null,
       marker: null,
       placesService: null,
-      savedPlacesMarker: null
+      visitedPlacesMarker: null
     }
   },
 
   computed: {
-    placeIdList () {
-      return this.$store.state.placeIdList
+    visitedPlaces () {
+      return this.$store.state.visitedPlaces
     }
   },
 
   watch: {
-    placeIdList: {
+    visitedPlaces: {
       handler () {
-        this.showSavedPlacesOnMap()
+        this.showVisitedPlacesOnMap()
       },
       deep: true
     }
@@ -64,12 +64,13 @@ export default {
         }
       })
     },
-    showSavedPlacesOnMap () {
-      if (this.savedPlacesMarker) this.savedPlacesMarker.setMap(null)
-      this.placeIdList.forEach(id => {
+    showVisitedPlacesOnMap () {
+      if (this.visitedPlacesMarker) this.visitedPlacesMarker.setMap(null)
+      this.visitedPlaces.forEach(e => {
+        const id = e.place.place_id
         this.placesService.getDetails({ placeId: id }, (place, status) => {
           if (status === 'OK') {
-            this.savedPlacesMarker = new google.maps.Marker({
+            this.visitedPlacesMarker = new google.maps.Marker({
               position: place.geometry.location,
               map: this.map,
               icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'

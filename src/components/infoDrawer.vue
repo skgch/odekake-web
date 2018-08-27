@@ -28,7 +28,7 @@
         </v-list-tile>
       </v-list-group>
       <v-list-tile>
-        <v-btn @click="addPlace(place.place_id)">add</v-btn>
+        <place-button></place-button>
       </v-list-tile>
     </v-list>
     <v-divider/>
@@ -46,8 +46,14 @@
 </template>
 
 <script>
+import PlaceButton from '@/components/PlaceButton'
+
 export default {
   name: 'info-drawer',
+
+  components: {
+    PlaceButton
+  },
 
   data () {
     return {
@@ -70,9 +76,6 @@ export default {
     getDay (number) {
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
       return days[number]
-    },
-    addPlace (placeId) {
-      this.$store.commit('addPlaceId', placeId)
     }
   }
 }

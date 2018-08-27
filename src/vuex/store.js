@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const state = {
   place: null,
   trip: null,
-  placeIdList: []
+  visitedPlaces: []
 }
 const actions = {}
 const getters = {}
@@ -17,9 +17,10 @@ const mutations = {
   setTrip (state, payload) {
     state.trip = payload
   },
-  addPlaceId (state, payload) {
-    if (!state.placeIdList.includes(payload)) {
-      state.placeIdList.push(payload)
+  addVisitedPlace (state, payload) {
+    const id = payload.place.place_id
+    if (!state.visitedPlaces.find(e => e.place.place_id === id)) {
+      state.visitedPlaces.push(payload)
     }
   }
 }
