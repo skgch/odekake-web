@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  place: null,
+  place: null, // selectedPlace
   trip: null,
   visitedPlaces: []
 }
