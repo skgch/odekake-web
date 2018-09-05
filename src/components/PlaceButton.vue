@@ -18,7 +18,7 @@
                   :close-on-content-click="false"
                   v-model="menu"
                   :nudge-right="40"
-                  :return-value.sync="date"
+                  :return-value.sync="visitedPlace.date"
                   lazy
                   transition="scale-transition"
                   offset-y
@@ -27,23 +27,23 @@
                 >
                   <v-text-field
                     slot="activator"
-                    v-model="date"
+                    v-model="visitedPlace.date"
                     label="Date"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
-                  <v-date-picker v-model="date" no-title scrollable>
+                  <v-date-picker v-model="visitedPlace.date" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn flat color="primary" @click="$refs.menu.save(visitedPlace.date)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-flex>
               <v-flex xs6>
-                <v-select :items="times" v-model="stayingTime" label="Staying Time"></v-select>
+                <v-select :items="times" v-model="visitedPlace.stayingTime" label="Staying Time"></v-select>
               </v-flex>
               <v-flex xs12>
-                <v-textarea label="Comments" v-model="comments"></v-textarea>
+                <v-textarea label="Comments" v-model="visitedPlace.comments"></v-textarea>
               </v-flex>
             </v-layout>
           </v-container>
@@ -68,10 +68,8 @@ export default {
     return {
       dialog: false,
       menu: false,
-      comments: '',
-      date: null,
-      stayingTime: null,
-      times: ['less than 30min', '30min', '1hour', '2hours', '3hours', 'more than 5hours', 'all day']
+      times: ['less than 30min', '30min', '1hour', '2hours', '3hours', 'more than 5hours', 'all day'],
+      visitedPlace: new VisitedPlaceDetails(this.$store.state.place, '', '', '')
     }
   },
 
@@ -81,13 +79,25 @@ export default {
     }
   },
 
+  watch: {
+    place: {
+      handler () {
+        const target = this.$store.state.visitedPlaces.find(e => {
+          return this.place.place_id === e.place.place_id
+        })
+        if (target) {
+          this.visitedPlace = target
+        } else {
+          this.visitedPlace = new VisitedPlaceDetails(this.$store.state.place, '', '', '')
+        }
+      },
+      deep: true
+    }
+  },
+
   methods: {
     save () {
-      const visitedPlaceDetails = new VisitedPlaceDetails(this.place, this.date, this.stayingTime, this.comments)
-      this.$store.commit('addVisitedPlace', visitedPlaceDetails)
-      this.comments = ''
-      this.date = null
-      this.stayingTime = null
+      this.$store.commit('addOrUpdateVisitedPlace', this.visitedPlace)
       this.dialog = false
     }
   }

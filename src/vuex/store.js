@@ -17,10 +17,13 @@ const mutations = {
   setTrip (state, payload) {
     state.trip = payload
   },
-  addVisitedPlace (state, payload) {
+  addOrUpdateVisitedPlace (state, payload) {
     const id = payload.place.place_id
-    if (!state.visitedPlaces.find(e => e.place.place_id === id)) {
+    const index = state.visitedPlaces.findIndex(e => e.place.place_id === id)
+    if (index === -1) {
       state.visitedPlaces.push(payload)
+    } else {
+      state.visitedPlaces[index] = payload
     }
   }
 }
